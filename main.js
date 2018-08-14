@@ -4,7 +4,7 @@ cc.Class({
 
     properties: {
 		//INScene:
-		name_:"inScene_name",
+		name_:"name",
 		password_:"1234",
 		id_:-1,
 		money_:0,
@@ -288,10 +288,11 @@ cc.Class({
 	},
 	makesocket_caser1:function(){
 		var self =this;
-	    //var webSocket1=new WebSocket("ws://47.93.2.137:54320/ws");
+	    var webSocket1=new WebSocket("ws://47.93.2.137:54320/ws");
 	    //var webSocket1=new WebSocket("ws://106.14.181.7:54320/ws");
 	    //var webSocket1=new WebSocket("ws://www.ququking.top:54320/ws");
-	    var webSocket1=new WebSocket("ws://localhost:54320/ws");
+	    //var webSocket1=new WebSocket("ws://www.seenmemo.com:54320/ws");
+	    //var webSocket1=new WebSocket("ws://localhost:54320/ws");
 		var con_ok=true;//客户端心跳检测{1/3}
 	    webSocket1.onopen=function(event){
 		    cc.log("socket_caser1 open:");
@@ -330,10 +331,11 @@ cc.Class({
 	makesocket_caser2:function(){
         //--------------------------------------------------------------
 	    var self =this;
-	    //var webSocket=new WebSocket("ws://47.93.2.137:54321/ws");
+	    var webSocket=new WebSocket("ws://47.93.2.137:54321/ws");
 	    //var webSocket=new WebSocket("ws://106.14.181.7:54321/ws");
 	    //var webSocket=new WebSocket("ws://www.ququking.top:54321/ws");
-	    var webSocket=new WebSocket("ws://localhost:54321/ws");
+	    var webSocket=new WebSocket("ws://www.seenmemo.com:54321/ws");
+	    //var webSocket=new WebSocket("ws://localhost:54321/ws");
 		this.websocket[0]=webSocket;
 	    var con_ok=true;//客户端心跳检测{1/3}
         var nettydata="";
@@ -686,9 +688,8 @@ cc.Class({
     						    var i_client=i_server-(self.sofa);
     						    if( i_client<0 ){ i_client=i_client+5; }
     						    self.SP_ox[ i_client].x=self.paiX[(i_client+1)*5-2]-960;
-    						    self.SP_ox[ i_client].y=self.paiY[(i_client+1)*5-2]+180-540;//+1080 not 180
-								var anim0=cc.moveBy(1, cc.p(500, -580)).easing(cc.easeCubicActionOut());
-                                self.SP_ox[ i_client].runAction(anim0);
+    						    self.SP_ox[ i_client].y=self.paiY[(i_client+1)*5-2]+1080-540;
+								
 								var texture=cc.textureCache.addImage(cc.url.raw(
 								    "resources/twelve_ox/niu_"+ self.BY_pairank[i_server] +".png"));
                                 self.SP_ox[ i_client].getComponent(cc.Sprite).spriteFrame.setTexture(texture);
@@ -697,47 +698,49 @@ cc.Class({
     							}else{
     							    self.SP_ox[ i_client].active=false;
     							}
+								var anim0=cc.moveBy(1, cc.p(0,-1080)).easing(cc.easeCubicActionOut());
+                                self.SP_ox[ i_client].runAction(anim0);
     						}
-    					}/*
+    					}
     					if( self.casert>350 && self.casert<370 ){
     					    //动画
     					}
     					if( self.casert>=370 && self.casert<=540 ){//等待
-    					    local i_server=0
-    					    for( i_server=1,5,1 ){
-    						    local i_client=i_server-(sofa-1)
-    						    if( i_client<1 ){ i_client=i_client+5 }
-    						    SP_ox[ i_client]:setSpriteFrame(cc.SpriteFrameCache:getInstance():
-    							    getSpriteFrame("niu_"+ BY_pairank[i_server] +".png"))
-    						    SP_ox[ i_client]:align(display.CENTER, paiX[i_client*5-2], paiY[i_client*5-2])
-    							if( BY_ready[i_server]==1 ){
-    							    SP_ox[ i_client].active=true;
-    							else
-    							    SP_ox[ i_client].active=false;
+    					    for(var i_server=0;i_server<=4;i_server++ ){
+    						    var i_client=i_server-(self.sofa);
+    						    if( i_client<0 ){ i_client=i_client+5; }
+    						    var texture=cc.textureCache.addImage(cc.url.raw(
+								    "resources/twelve_ox/niu_"+ self.BY_pairank[i_server] +".png"));
+                                self.SP_ox[ i_client].getComponent(cc.Sprite).spriteFrame.setTexture(texture);
+    						    self.SP_ox[ i_client].x=self.paiX[(i_client+1)*5-2]-960;
+    						    self.SP_ox[ i_client].y=self.paiY[(i_client+1)*5-2]-540;
+    							if( self.BY_ready[i_server]==1 ){
+    							    self.SP_ox[ i_client].active=true;
+    							}else{
+    							    self.SP_ox[ i_client].active=false;
     							}
                             }
-    						oxback_action_ed=false
+    						self.oxback_action_ed=false
     					}
-    					if( self.casert>540 && self.casert<=560 && oxback_action_ed==false ){//动画关闭
-    					    oxback_action_ed=true
-    						local i_server=0
-    					    for( i_server=1,5,1 ){
-    						    local i_client=i_server-(sofa-1)
-    						    if( i_client<1 ){ i_client=i_client+5 }
-    						    SP_ox[ i_client]:align(display.CENTER, paiX[i_client*5-2], paiY[i_client*5-2])
-    							animate=cc.MoveTo:create(1,cc.p(paiX[i_client*5-2],paiY[i_client*5-2]+1080))
-                                animate2=cc.EaseExponentialOut:create(animate)//动画模式
-                                SP_ox[ i_client]:runAction(animate2)//运行动画
-    							if( BY_ready[i_server]==1 ){
-    							    SP_ox[ i_client].active=true;
-    							else
-    							    SP_ox[ i_client].active=false;
+    					if( self.casert>540 && self.casert<=560 && self.oxback_action_ed==false ){//动画关闭
+    					    self.oxback_action_ed=true;
+    						for(var i_server=0;i_server<=4;i_server++ ){
+    						    var i_client=i_server-(self.sofa);
+    						    if( i_client<0 ){ i_client=i_client+5; }
+    						    self.SP_ox[ i_client].x=self.paiX[(i_client+1)*5-2]-960;
+    						    self.SP_ox[ i_client].y=self.paiY[(i_client+1)*5-2]-540;
+    							if( self.BY_ready[i_server]==1 ){
+    							    self.SP_ox[ i_client].active=true;
+    							}else{
+    							    self.SP_ox[ i_client].active=false;
     							}
+								var anim0=cc.moveBy(1, cc.p(0,1080)).easing(cc.easeCubicActionOut());
+                                self.SP_ox[ i_client].runAction(anim0);
     						}
     					}
     					if( self.casert>560 ){
     						for( var i=0;i<=4;i++ ){
-    							SP_ox[ i].active=false;
+    							self.SP_ox[ i].active=false;
                             }
     					}
     					
@@ -748,25 +751,26 @@ cc.Class({
     					    for( var i=0;i<=4;i++ ){
     							self.SP_cheng[ i].active=false;
                             }
-    						cheng_action_ed=false
+    						self.cheng_action_ed=false
     					}
-    					if( self.casert>400 && self.casert<405 && cheng_action_ed==false ){//动画
-    					    cheng_action_ed=true
+    					if( self.casert>400 && self.casert<405 && self.cheng_action_ed==false ){//动画
+    					    self.cheng_action_ed=true
     
-    						local i_server=0
-    					    for( i_server=1,5,1 ){
-    						    local i_client=i_server-(sofa-1)
-    						    if( i_client<1 ){ i_client=i_client+5 }
+    						for(var i_server=0;i_server<=4;i_server++ ){
+    						    var i_client=i_server-(self.sofa);
+    						    if( i_client<0 ){ i_client=i_client+5; }
     							    
-    							    if( BY_pairank[i_server]~=0 && BY_ready[i_server]==1 ){
-    						            self.SP_cheng[ i_client]:align(display.CENTER, paiX[i_client*5-2], paiY[i_client*5-2]+1080)
-    							        animate=cc.MoveTo:create(1,cc.p(paiX[i_client*5-2],paiY[i_client*5-2]+100))
-                                        animate2=cc.EaseExponentialOut:create(animate)//动画模式
-                                        self.SP_cheng[ i_client]:runAction(animate2)//运行动画
-    							        self.SP_cheng[ i_client]:setSpriteFrame(cc.SpriteFrameCache:getInstance():
-    							            getSpriteFrame("cheng_"+ ox_bei[BY_pairank[i_server]] +".png"))
+    							    if( self.BY_pairank[i_server]!=0 && self.BY_ready[i_server]==1 ){
+    						            self.SP_cheng[ i_client].x=self.paiX[(i_client+1)*5-2]-960;
+    						            self.SP_cheng[ i_client].y=self.paiY[(i_client+1)*5-2]-540-100+1080;
+										var texture=cc.textureCache.addImage(cc.url.raw(
+								            "resources/twelve_ox/cheng_"+ self.ox_bei[self.BY_pairank[i_server]] +".png"));
+                                        self.SP_cheng[ i_client].getComponent(cc.Sprite).spriteFrame.setTexture(texture);
+    							        
     							        self.SP_cheng[ i_client].active=true;
-    								else
+										var anim0=cc.moveBy(1, cc.p(0,-1080)).easing(cc.easeCubicActionOut());
+                                        self.SP_cheng[ i_client].runAction(anim0);
+    								}else{
     								    self.SP_cheng[ i_client].active=false;
     								}
     							
@@ -777,41 +781,40 @@ cc.Class({
     					}
     					if( self.casert>=420 && self.casert<500 ){//等待
     
-    						local i_server=0
-    					    for( i_server=1,5,1 ){
-    						    local i_client=i_server-(sofa-1)
-    						    if( i_client<1 ){ i_client=i_client+5 }
+    						for(var i_server=0;i_server<=4;i_server++ ){
+    						    var i_client=i_server-(self.sofa);
+    						    if( i_client<0 ){ i_client=i_client+5; }
     							
-    							    if( BY_pairank[i_server]~=0 && BY_ready[i_server]==1 ){
-    								    //cc.log("BY_pairank[i_server]"+ BY_pairank[i_server])
-    						            self.SP_cheng[ i_client]:align(display.CENTER, paiX[i_client*5-2], paiY[i_client*5-2]+100)
-    							        self.SP_cheng[ i_client]:setSpriteFrame(cc.SpriteFrameCache:getInstance():
-    							            getSpriteFrame("cheng_"+ ox_bei[BY_pairank[i_server]] +".png"))
+    							    if( self.BY_pairank[i_server]!=0 && self.BY_ready[i_server]==1 ){
+    								    self.SP_cheng[ i_client].x=self.paiX[(i_client+1)*5-2]-960;
+    						            self.SP_cheng[ i_client].y=self.paiY[(i_client+1)*5-2]-540-100;
+										var texture=cc.textureCache.addImage(cc.url.raw(
+								            "resources/twelve_ox/cheng_"+ self.ox_bei[self.BY_pairank[i_server]] +".png"));
+                                        self.SP_cheng[ i_client].getComponent(cc.Sprite).spriteFrame.setTexture(texture);
     							        self.SP_cheng[ i_client].active=true;
-    								else
+    								}else{
     								    //cc.log("BY_pairank[i_server]"+ BY_pairank[i_server])
     								    self.SP_cheng[ i_client].active=false;
     								}
     							
     						}
-    						chengback_action_ed=false
+    						self.chengback_action_ed=false
     					}
-    					if( self.casert>=500 && self.casert<=505 && chengback_action_ed==false ){//退出
-    					    chengback_action_ed=true
+    					if( self.casert>=500 && self.casert<=505 && self.chengback_action_ed==false ){//退出
+    					    self.chengback_action_ed=true
     
-    						local i_server=0
-    					    for( i_server=1,5,1 ){
-    						    local i_client=i_server-(sofa-1)
-    						    if( i_client<1 ){ i_client=i_client+5 }
+    						for(var i_server=0;i_server<=4;i_server++ ){
+    						    var i_client=i_server-(self.sofa);
+    						    if( i_client<0 ){ i_client=i_client+5; }
     						    
-    							    if( BY_pairank[i_server]~=0 && BY_ready[i_server]==1 ){
-    						        self.SP_cheng[ i_client]:align(display.CENTER, paiX[i_client*5-2], paiY[i_client*5-2]+100)
-    							    animate=cc.MoveTo:create(1,cc.p(paiX[i_client*5-2],paiY[i_client*5-2]+1080))
-                                    animate2=cc.EaseExponentialOut:create(animate)//动画模式
-                                    self.SP_cheng[ i_client]:runAction(animate2)//运行动画
-    							    self.SP_cheng[ i_client].active=true;
-    								else
-    								self.SP_cheng[ i_client].active=false;
+    							    if( self.BY_pairank[i_server]!=0 && self.BY_ready[i_server]==1 ){
+    						            self.SP_cheng[ i_client].x=self.paiX[(i_client+1)*5-2]-960;
+    						            self.SP_cheng[ i_client].y=self.paiY[(i_client+1)*5-2]-540-100;
+    							        self.SP_cheng[ i_client].active=true;
+									    var anim0=cc.moveBy(1, cc.p(0,+1080)).easing(cc.easeCubicActionOut());
+                                        self.SP_cheng[ i_client].runAction(anim0);
+    								}else{
+    								    self.SP_cheng[ i_client].active=false;
     							    }
     						}
     					}
@@ -819,7 +822,7 @@ cc.Class({
     						for( var i=0;i<=4;i++ ){
     							self.SP_cheng[ i].active=false;
                             }
-    					}
+    					}/*
     					//【倍率】 }
     					//【奖金】 begin
     					
@@ -1048,18 +1051,18 @@ cc.Class({
 			//---------------------------------------------------------------
 			//---------------------------------------------------------------
 			//庄
-			/*
-			if (casert>300) {
+			
+			if (this.casert>300) {
 			    this.SP_zhuang.active=true;
 				var zhuang_client=this.BY_zhuang-(this.sofa);//this.BY_zhuang:0~4  this.sofa:0~4
 				//print("zhuang_client".. zhuang_client)
 				//print("BY_zhuang".. BY_zhuang)
 				if( zhuang_client<0)  zhuang_client=zhuang_client+5 ;
-				this.SP_zhuang.x=this.headX[zhuang_client];
-				this.SP_zhuang.y=this.headY[zhuang_client];
+				this.SP_zhuang.x=this.headX[zhuang_client]-960;
+				this.SP_zhuang.y=this.headY[zhuang_client]-540;
 			}else{
 			    this.SP_zhuang.active=false;
-			}*/
+			}
 			//---------------------------------------------------------------
 		}			
 		
@@ -1154,6 +1157,7 @@ cc.Class({
 	    	else if( can3to10(size5)==true)
 	    	    this.BY_pairank[i_pai-1]=whichox(size5);		
 	    	//now BY_pairank=0->13
+			this.BY_pairank[i_pai-1]=10;
         }
     },
 });
