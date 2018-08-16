@@ -137,24 +137,32 @@ cc.Class({
 		//MainScene:
 		this.SP_BG.active=false;
 		this.SP_exit.active=false;
-		for(var i=0;i<=24;i++)this.SP_pai[i].active=false;
-		for(var i=0;i<=4;i++){
-			this.SP_head[i].active=false;
-			this.SP_ready[i].active=false;
-			this.SP_qiang[i].active=false;
-			this.SP_without[i].active=false;
-			this.ZI_name[i].node.active=false;
-			this.ZI_personmoney[i].node.active=false;
-			this.SP_ox[i].active=false;
-			this.SP_cheng[i].active=false;
-			this.SP_money[i].active=false;
-		}
-		this.SP_zhuang.active=false;
-		this.SP_button_qiang.active=false;
 		this.SP_note.active=false;
 		this.SP_button_ready.active=false;
-		this.ZI_caser.node.active=false;
+		this.ZI_room.node.active=false;
+		this.SP_clock.active=false;
 		this.ZI_casert.node.active=false;
+		this.ZI_other2_pai_sum.node.active=false;
+		this.ZI_other3_pai_sum.node.active=false;
+		this.SP_button_qiang.active=false;
+		this.SP_zhuang.active=false;
+		this.SP_button_tishi.active=false;
+		this.SP_button_chupai.active=false;
+		this.SP_button_buyao.active=false;
+		for(var i=0;i<=19;i++){
+			this.SP_mycard[i].active=false;
+			this.SP_out_card[i].active=false;
+		}
+		for(var i=0;i<=2;i++){
+			this.SP_head[i].active=false;
+			this.ZI_name[i].node.active=false;
+			this.ZI_personmoney[i].node.active=false;
+			this.SP_ready[i].active=false;
+			this.SP_landowner_card[i].active=false;
+			this.SP_qiang[i].active=false;
+			this.SP_without[i].active=false;
+			this.ZI_getmoney[i].node.active=false;
+		}
     },
 	opencaser1:function(){
 		this.caser=1;
@@ -166,40 +174,23 @@ cc.Class({
 	},
 	opencaser2:function(){
 		this.caser=2;
-		this.makesocket_caser2();
+		//this.makesocket_caser2();
 		//MainScene:
 		this.SP_BG.active=true;
 		this.SP_exit.active=true;
-		for(var i=0;i<=24;i++)this.SP_pai[i].active=true;
-		for(var i=0;i<=4;i++){
-			this.SP_head[i].active=true;
-			this.SP_ready[i].active=true;
-			this.SP_qiang[i].active=true;
-			this.SP_without[i].active=true;
-			this.ZI_name[i].node.active=true;
-			this.ZI_personmoney[i].node.active=true;
-			this.SP_ox[i].active=true;
-			this.SP_cheng[i].active=true;
-			this.SP_money[i].active=true;
-		}
-		this.SP_zhuang.active=true;
-		this.SP_button_qiang.active=true;
 		this.SP_note.active=true;
-		this.SP_button_ready.active=true;
-		this.ZI_caser.node.active=true;
-		this.ZI_casert.node.active=true;
 	},
 	makesocket_caser1:function(){
 		var self =this;
-	    var webSocket1=new WebSocket("ws://47.93.2.137:54320/ws");
+	    //var webSocket1=new WebSocket("ws://47.93.2.137:54320/ws");
 	    //var webSocket1=new WebSocket("ws://106.14.181.7:54320/ws");
 	    //var webSocket1=new WebSocket("ws://www.ququking.top:54320/ws");
 	    //var webSocket1=new WebSocket("ws://www.seenmemo.com:54320/ws");
-	    //var webSocket1=new WebSocket("ws://localhost:54320/ws");
+	    var webSocket1=new WebSocket("ws://localhost:54320/ws");
 		var con_ok=true;//客户端心跳检测{1/3}
 	    webSocket1.onopen=function(event){
 		    cc.log("socket_caser1 open:");
-		webSocket1.send("1"+self.name_+"\n"+self.password_+"}");
+		    webSocket1.send("1"+self.name_+"\n"+self.password_+"}");
 	    }
 	    webSocket1.onmessage=function(event){
 			cc.log("socket_caser1 msg:"+event.data);
@@ -237,7 +228,7 @@ cc.Class({
 	    var webSocket=new WebSocket("ws://47.93.2.137:54321/ws");
 	    //var webSocket=new WebSocket("ws://106.14.181.7:54321/ws");
 	    //var webSocket=new WebSocket("ws://www.ququking.top:54321/ws");
-	    var webSocket=new WebSocket("ws://www.seenmemo.com:54321/ws");
+	    //var webSocket=new WebSocket("ws://www.seenmemo.com:54321/ws");
 	    //var webSocket=new WebSocket("ws://localhost:54321/ws");
 		this.websocket[0]=webSocket;
 	    var con_ok=true;//客户端心跳检测{1/3}
@@ -837,7 +828,7 @@ cc.Class({
 
     },
 	
-    update (dt) {
+    update (dt) {/*
 		this.timer0++;if(this.timer0>1000000)this.timer0=1;
 		//----------------------------------------------------------------------------------------
 		//----------------------------------------------------------------------------------------
@@ -970,6 +961,7 @@ cc.Class({
 		}			
 		
         //-----------------------------------------------------------
+		*/
 	},
 	update_pairank:function(){//--【】【】已测无误(已经全部转移到server)
 	
